@@ -60,7 +60,8 @@ async function requestAndGetToken(registration) {
       // Firebase SDK의 실제 빌트인 함수인 'getToken'을 호출하여 토큰을 받아옵니다.
       const currentToken = await getToken(messaging, {
         serviceWorkerRegistration: registration,
-        vapidKey: "YOUR_PUBLIC_VAPID_KEY_HERE",
+        vapidKey:
+          "BI3Z5nWpNOvg084Fi-o0SLzCeqPLc9xoKKPN4ZMwDzcWu9jVirEL9aPI6i4qD7a7vmSBz2gFef3v-Ysx_6nInpY",
       });
 
       if (currentToken) {
