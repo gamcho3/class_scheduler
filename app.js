@@ -21,6 +21,30 @@ const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 const messaging = firebase.messaging();
 
+// GitHub Pages의 레포지토리명 정의 (지정하지 않으면 404 라우팅 에러 가능성 높음)
+const repoName = "/class_scheduler";
+
+// 3. 페이지 로드 시 서비스 워커 등록 및 토큰 요청 시작
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", async () => {
+    try {
+      // GitHub Pages의 서브 디렉토리 구조에 맞춰 서비스 워커 파일 위치 지정
+      const registration = await navigator.serviceWorker.register(
+        `${repoName}/firebase-messaging-sw.js`,
+        {
+          scope: `${repoName}/`,
+        },
+      );
+      console.log("서비스 워커 등록 성공! 범위:", registration.scope);
+
+      // 서비스 워커 등록이 완료되면 알림 권한 및 토큰 요청 함수 호출
+      await requestAndGetToken(registration);
+    } catch (error) {
+      console.error("서비스 워커 등록 실패:", error);
+    }
+  });
+}
+
 function requestPermission() {
   document.getElementById("status").innerText = "권한 요청 중...";
 

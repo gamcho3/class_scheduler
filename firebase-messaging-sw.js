@@ -31,7 +31,7 @@ messaging.onBackgroundMessage((payload) => {
     payload.notification?.title || "새로운 알림이 있습니다.";
 
   // GitHub Pages의 레포지토리명을 포함한 기본 아이콘 및 이동 경로 설정
-  const repoName = "/your-repository-name";
+  const repoName = "/class_scheduler";
 
   const notificationOptions = {
     body: payload.notification?.body || "내용을 확인하려면 클릭하세요.",
