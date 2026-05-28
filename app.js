@@ -29,25 +29,22 @@ const isIOS =
   (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
 const isAndroid = /Android/.test(navigator.userAgent);
 
+// 성공 시 true, 실패 시 false 반환
 async function requestTokenWithRegistration(registration) {
   const permission = await Notification.requestPermission();
-  if (permission !== "granted") {
-    alert("알림 권한이 거부되었습니다.");
-    return;
-  }
+  if (permission !== "granted") return false;
   try {
     const currentToken = await getToken(messaging, {
       serviceWorkerRegistration: registration,
       vapidKey: VAPID_KEY,
     });
     if (currentToken) {
-      alert("FCM 토큰 발급 성공: " + currentToken);
       sendTokenToGAS(currentToken);
-    } else {
-      alert("토큰을 획득하지 못했습니다.");
+      return true;
     }
+    return false;
   } catch (err) {
-    alert("토큰 발급 중 오류 발생: " + err);
+    return false;
   }
 }
 
@@ -60,16 +57,13 @@ if ("serviceWorker" in navigator) {
         { scope: `${repoName}/` }
       );
     } catch (error) {
-      alert("서비스 워커 등록 실패: " + error);
       return;
     }
 
     if (isAndroid) {
-      // 안드로이드: 페이지 로드 후 자동으로 권한 요청
       await requestTokenWithRegistration(registration);
 
     } else if (isIOS) {
-      // 이미 한 번 눌렀으면 pushbar를 다시 표시하지 않음
       if (localStorage.getItem("pushBarDismissed")) return;
 
       const pushBar = document.getElementById("iosPushBar");
@@ -77,8 +71,8 @@ if ("serviceWorker" in navigator) {
       document.body.style.paddingBottom = "80px";
 
       document.getElementById("pushBtn").addEventListener("click", async () => {
-        await requestTokenWithRegistration(registration);
-        // 버튼을 누른 시점을 기록 (권한 결과와 무관하게)
+        const success = await requestTokenWithRegistration(registration);
+        if (success) alert("알림이 허용되었습니다.");
         localStorage.setItem("pushBarDismissed", "1");
         pushBar.setAttribute("hidden", "");
         document.body.style.paddingBottom = "";
@@ -101,6 +95,5 @@ function sendTokenToGAS(token) {
       userAgent: navigator.userAgent,
     }),
   })
-    .then(() => alert("GAS 백엔드로 토큰 전송 요청 완료"))
-    .catch((err) => alert("GAS 토큰 전송 중 에러: " + err));
+    .catch(() => {});
 }

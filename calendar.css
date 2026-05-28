@@ -1,3 +1,7 @@
+:root {
+  --font-size: 1.2rem;
+}
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -12,6 +16,7 @@ html, body {
 
 body {
   font-family: 'Segoe UI', sans-serif;
+  font-size: var(--font-size);
   background: #fff;
   color: #333;
 }
@@ -40,7 +45,7 @@ body {
 }
 
 .nav-title {
-  font-size: 1rem;
+  font-size: var(--font-size);
   font-weight: 700;
   color: #1a1a2e;
   min-width: 90px;
@@ -52,14 +57,14 @@ body {
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  font-size: 1rem;
+  font-size: var(--font-size);
   font-weight: 700;
   color: #1a1a2e;
   pointer-events: none;
 }
 
 .nav-page-title {
-  font-size: 1rem;
+  font-size: var(--font-size);
   font-weight: 700;
   color: #1a1a2e;
 }
@@ -68,7 +73,7 @@ body {
   background: none;
   border: none;
   color: #555;
-  font-size: 1.5rem;
+  font-size: var(--font-size);
   width: 32px;
   height: 32px;
   display: flex;
@@ -149,7 +154,7 @@ body {
 }
 
 .side-menu-title {
-  font-size: 1rem;
+  font-size: var(--font-size);
   font-weight: 700;
   color: #1a1a2e;
 }
@@ -157,7 +162,7 @@ body {
 .side-close-btn {
   background: none;
   border: none;
-  font-size: 1rem;
+  font-size: var(--font-size);
   color: #999;
   cursor: pointer;
   width: 28px;
@@ -178,7 +183,7 @@ body {
 
 .side-menu-item {
   padding: 14px 24px;
-  font-size: 0.95rem;
+  font-size: var(--font-size);
   color: #444;
   cursor: pointer;
   transition: background 0.15s;
@@ -221,7 +226,7 @@ body {
 
 .weekdays span {
   text-align: center;
-  font-size: 0.7rem;
+  font-size: var(--font-size);
   font-weight: 700;
   padding: 8px 0;
   color: #bbb;
@@ -267,7 +272,7 @@ body {
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  font-size: 16px;
+  font-size: var(--font-size);
   font-weight: 500;
   color: #333;
   flex-shrink: 0;
@@ -296,7 +301,7 @@ body {
 
 .holiday-label {
   width: 100%;
-  font-size: 0.55rem;
+  font-size: var(--font-size);
   color: #e74c3c;
   text-align: center;
   white-space: nowrap;
@@ -309,7 +314,7 @@ body {
 
 .event-pill {
   width: 100%;
-  font-size: 0.6rem;
+  font-size: var(--font-size);
   font-weight: 600;
   padding: 2px 4px;
   border-radius: 3px;
@@ -327,7 +332,7 @@ body {
   grid-column: 1 / -1;
   padding: 32px 20px;
   text-align: center;
-  font-size: 0.85rem;
+  font-size: var(--font-size);
   line-height: 1.6;
 }
 
@@ -338,7 +343,7 @@ body {
 .list-error   { color: #e74c3c; }
 
 .event-more {
-  font-size: 0.6rem;
+  font-size: var(--font-size);
   color: #aaa;
   align-self: flex-start;
   padding: 0 4px;
@@ -354,7 +359,7 @@ body {
   padding: 14px 20px;
   background: #1a1a2e;
   color: #fff;
-  font-size: 1rem;
+  font-size: var(--font-size);
   font-weight: 600;
 }
 
@@ -383,16 +388,16 @@ body {
 .event-info { flex: 1; }
 
 .event-title {
-  font-size: 0.9rem;
+  font-size: var(--font-size);
   font-weight: 600;
   color: #1a1a2e;
   margin-bottom: 2px;
 }
 
-.event-desc { font-size: 0.78rem; color: #888; }
+.event-desc { font-size: var(--font-size); color: #888; }
 
 .event-time {
-  font-size: 0.75rem;
+  font-size: var(--font-size);
   color: #aaa;
   white-space: nowrap;
 }
@@ -401,7 +406,7 @@ body {
   padding: 20px;
   text-align: center;
   color: #bbb;
-  font-size: 0.85rem;
+  font-size: var(--font-size);
 }
 
 /* ── 공지사항 목록 ── */
@@ -423,18 +428,18 @@ body {
 .notice-item:hover { background: #f7f9ff; }
 
 .notice-item-title {
-  font-size: 0.95rem;
+  font-size: var(--font-size);
   font-weight: 600;
   color: #1a1a2e;
 }
 
 .notice-item-date {
-  font-size: 0.75rem;
+  font-size: var(--font-size);
   color: #aaa;
 }
 
 .notice-item-preview {
-  font-size: 0.82rem;
+  font-size: var(--font-size);
   color: #888;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -454,7 +459,7 @@ body {
   background: none;
   border: none;
   color: #4a6cf7;
-  font-size: 0.9rem;
+  font-size: var(--font-size);
   font-weight: 600;
   padding: 14px 20px;
   cursor: pointer;
@@ -470,7 +475,7 @@ body {
 }
 
 .notice-detail-content h2 {
-  font-size: 1.1rem;
+  font-size: var(--font-size);
   font-weight: 700;
   color: #1a1a2e;
   line-height: 1.4;
@@ -479,7 +484,7 @@ body {
 
 .notice-detail-date {
   display: block;
-  font-size: 0.78rem;
+  font-size: var(--font-size);
   color: #aaa;
   margin-bottom: 20px;
   padding-bottom: 16px;
@@ -487,7 +492,7 @@ body {
 }
 
 .notice-detail-body {
-  font-size: 0.9rem;
+  font-size: var(--font-size);
   color: #444;
   line-height: 1.75;
   white-space: pre-line;
@@ -509,7 +514,7 @@ body {
 }
 
 .form-group label {
-  font-size: 0.85rem;
+  font-size: var(--font-size);
   font-weight: 600;
   color: #555;
 }
@@ -519,7 +524,7 @@ body {
   border: 1px solid #e0e0e0;
   border-radius: 10px;
   padding: 0 14px;
-  font-size: 0.95rem;
+  font-size: var(--font-size);
   color: #1a1a2e;
   outline: none;
   transition: border-color 0.2s, box-shadow 0.2s;
@@ -541,7 +546,7 @@ body {
   color: #fff;
   border: none;
   border-radius: 12px;
-  font-size: 1rem;
+  font-size: var(--font-size);
   font-weight: 600;
   cursor: pointer;
   transition: background 0.2s;
@@ -571,18 +576,18 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.8rem;
+  font-size: var(--font-size);
   margin-bottom: 8px;
 }
 
 .success-title {
-  font-size: 1.2rem;
+  font-size: var(--font-size);
   font-weight: 700;
   color: #1a1a2e;
 }
 
 .success-desc {
-  font-size: 0.88rem;
+  font-size: var(--font-size);
   color: #888;
   text-align: center;
   line-height: 1.6;
@@ -610,13 +615,13 @@ body {
 .ios-push-info { flex: 1; }
 
 .ios-push-title {
-  font-size: 0.9rem;
+  font-size: var(--font-size);
   font-weight: 700;
   color: #1a1a2e;
   margin-bottom: 2px;
 }
 
-.ios-push-desc { font-size: 0.75rem; color: #888; }
+.ios-push-desc { font-size: var(--font-size); color: #888; }
 
 #pushBtn {
   flex-shrink: 0;
@@ -625,7 +630,7 @@ body {
   border: none;
   border-radius: 10px;
   padding: 10px 20px;
-  font-size: 0.9rem;
+  font-size: var(--font-size);
   font-weight: 600;
   cursor: pointer;
   transition: background 0.2s;
