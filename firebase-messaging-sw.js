@@ -44,7 +44,7 @@ messaging.onBackgroundMessage((payload) => {
   };
 
   // 브라우저 내부 엔진에게 시스템 알림 창을 띄우도록 명령
-  self.registration.showNotification(notificationTitle, notificationOptions);
+  // self.registration.showNotification(notificationTitle, notificationOptions);
 });
 
 // 5. 사용자가 푸시 알림 창을 클릭했을 때 이벤트 처리
