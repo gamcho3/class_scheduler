@@ -45,36 +45,46 @@ if ("serviceWorker" in navigator) {
   });
 }
 
-function requestPermission() {
-  document.getElementById("status").innerText = "권한 요청 중...";
+async function requestAndGetToken(registration) {
+  try {
+    // 브라우저에 알림 권한 팝업 요청
+    const permission = await Notification.requestPermission();
 
-  Notification.requestPermission().then((permission) => {
     if (permission === "granted") {
-      // 2. FCM 토큰 획득 (VAPID 키 쌍 필요 - Firebase 콘솔 웹 푸시 설정 탭에서 발급 가능)
-      messaging
-        .getToken({
-          vapidKey:
-            "BI3Z5nWpNOvg084Fi-o0SLzCeqPLc9xoKKPN4ZMwDzcWu9jVirEL9aPI6i4qD7a7vmSBz2gFef3v-Ysx_6nInpY",
-        })
-        .then((currentToken) => {
-          if (currentToken) {
-            // 3. 획득한 토큰을 구글 앱스 스크립트 백엔드 함수로 전송
-            google.script.run
-              .withSuccessHandler(function (res) {
-                document.getElementById("status").innerText = res;
-              })
-              .saveTokenToSheet(currentToken);
-          } else {
-            document.getElementById("status").innerText =
-              "토큰을 가져오지 못했습니다. 권한을 확인하세요.";
-          }
-        })
-        .catch((err) => {
-          document.getElementById("status").innerText = "오류 발생: " + err;
-        });
+      console.log("알림 권한 허용됨. FCM 토큰 요청 중...");
+
+      // Firebase SDK의 실제 빌트인 함수인 'getToken'을 호출하여 토큰을 받아옵니다.
+      const currentToken = await getToken(messaging, {
+        serviceWorkerRegistration: registration,
+        vapidKey: "YOUR_PUBLIC_VAPID_KEY_HERE",
+      });
+
+      if (currentToken) {
+        console.log("FCM 토큰 발급 성공:", currentToken);
+        sendTokenToGAS(currentToken); // GAS 백엔드로 전송
+      } else {
+        console.log("토큰을 획득하지 못했습니다.");
+      }
     } else {
-      document.getElementById("status").innerText =
-        "알림 권한이 거부되었습니다.";
+      console.warn("사용자가 알림 권한을 거부했습니다.");
     }
-  });
+  } catch (err) {
+    console.error("토큰 발급 중 오류 발생:", err);
+  }
+}
+
+function sendTokenToGAS(token) {
+  const gasWebAppUrl = "https://script.google.com/macros/s/XXXXX/exec";
+
+  fetch(gasWebAppUrl, {
+    method: "POST",
+    mode: "no-cors",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      token: token,
+      userAgent: navigator.userAgent,
+    }),
+  })
+    .then(() => console.log("GAS 백엔드로 토큰 전송 요청 완료"))
+    .catch((err) => console.error("GAS 토큰 전송 중 에러:", err));
 }
