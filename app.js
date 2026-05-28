@@ -74,7 +74,8 @@ async function requestAndGetToken(registration) {
 }
 
 function sendTokenToGAS(token) {
-  const gasWebAppUrl = "https://script.google.com/macros/s/XXXXX/exec";
+  const gasWebAppUrl =
+    "https://script.google.com/macros/s/AKfycbyby8YtrF2tWC5u-o3eZEM1i4m8F_vm1-nb7dV1baL5rnY8Utv01d1yor1pwhqEtc6a/exec";
 
   fetch(gasWebAppUrl, {
     method: "POST",
