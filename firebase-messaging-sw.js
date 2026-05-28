@@ -36,9 +36,8 @@ messaging.onBackgroundMessage((payload) => {
 
   const notificationOptions = {
     body: payload.notification?.body || "내용을 확인하려면 클릭하세요.",
-    // GAS 페이로드에 별도 아이콘/웹푸시 링크가 담겨오면 그것을 쓰고, 없으면 기본값 지정
-    icon: payload.data?.icon || `${repoName}/icon.png`,
-    badge: `${repoName}/icon.png`, // 안드로이드 상단 바 등에 표시될 작은 단색 아이콘
+    icon:  payload.data?.icon  || `${repoName}/icon/android-chrome-192x192.png`,
+    badge: payload.data?.badge || `${repoName}/icon/android-chrome-192x192.png`,
     data: {
       click_action: payload.data?.click_action || `${repoName}/`,
     },
