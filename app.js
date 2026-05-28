@@ -69,18 +69,19 @@ if ("serviceWorker" in navigator) {
       await requestTokenWithRegistration(registration);
 
     } else if (isIOS) {
-      // iOS: 하단 버튼 표시 후 탭 시 권한 요청
+      // 이미 한 번 눌렀으면 pushbar를 다시 표시하지 않음
+      if (localStorage.getItem("pushBarDismissed")) return;
+
       const pushBar = document.getElementById("iosPushBar");
       pushBar.removeAttribute("hidden");
       document.body.style.paddingBottom = "80px";
 
       document.getElementById("pushBtn").addEventListener("click", async () => {
         await requestTokenWithRegistration(registration);
-        // 토큰 발급 성공 여부와 무관하게 권한 결정 후 바 숨김
-        if (Notification.permission !== "default") {
-          pushBar.setAttribute("hidden", "");
-          document.body.style.paddingBottom = "";
-        }
+        // 버튼을 누른 시점을 기록 (권한 결과와 무관하게)
+        localStorage.setItem("pushBarDismissed", "1");
+        pushBar.setAttribute("hidden", "");
+        document.body.style.paddingBottom = "";
       });
     }
     // 그 외 환경(데스크톱 등)은 아무것도 하지 않음

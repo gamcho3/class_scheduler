@@ -1,10 +1,25 @@
 const today = new Date();
-let current = new Date(today.getFullYear(), today.getMonth(), 1);
-let selectedDate = toDateKey(today);
 let calendarData = {};  // 날짜별 항목 배열 { [dateKey]: [{제목, 설명, 상태, 색상}] }
 
 const monthNames = ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'];
 const MAX_PILLS  = 2;
+
+const RANGE_START = new Date(2026, 2, 30);   // 2026-03-30
+const RANGE_END   = new Date(2026, 9, 22);   // 2026-10-22
+
+// 현재 달이 범위 밖이면 가장 가까운 범위 월로 고정
+function clampToRange(date) {
+  const startMonth = new Date(RANGE_START.getFullYear(), RANGE_START.getMonth(), 1);
+  const endMonth   = new Date(RANGE_END.getFullYear(),   RANGE_END.getMonth(),   1);
+  if (date < startMonth) return new Date(startMonth);
+  if (date > endMonth)   return new Date(endMonth);
+  return date;
+}
+
+let current      = clampToRange(new Date(today.getFullYear(), today.getMonth(), 1));
+let selectedDate = toDateKey(
+  today >= RANGE_START && today <= RANGE_END ? today : RANGE_START
+);
 
 function toDateKey(date) {
   const y = date.getFullYear();
@@ -40,6 +55,11 @@ async function loadCalendarData() {
 // ── 셀 생성 ──────────────────────────────────────────
 function makeCell(dateNum, classes, dateKey) {
   const cell = document.createElement('div');
+
+  // 범위 밖 날짜는 other-month처럼 비활성화
+  const inRange = dateKey && dateKey >= toDateKey(RANGE_START) && dateKey <= toDateKey(RANGE_END);
+  if (dateKey && !inRange) classes += ' out-of-range';
+
   cell.className = 'day ' + classes;
 
   const numEl = document.createElement('span');
@@ -47,7 +67,7 @@ function makeCell(dateNum, classes, dateKey) {
   numEl.textContent = dateNum;
   cell.appendChild(numEl);
 
-  if (dateKey) {
+  if (inRange) {
     const items = calendarData[dateKey] || [];
 
     // 공휴일 → 날짜 숫자 빨간색 + 이름 라벨
@@ -114,6 +134,12 @@ function renderCalendar() {
     const dow = (total + i - 1) % 7;
     grid.appendChild(makeCell(i, 'other-month' + (dow === 6 ? ' saturday' : ''), null));
   }
+
+  // 범위 경계에서 이전/다음 버튼 비활성화
+  const startMonth = new Date(RANGE_START.getFullYear(), RANGE_START.getMonth(), 1);
+  const endMonth   = new Date(RANGE_END.getFullYear(),   RANGE_END.getMonth(),   1);
+  document.getElementById('prevBtn').disabled = current <= startMonth;
+  document.getElementById('nextBtn').disabled = current >= endMonth;
 }
 
 function selectDate(dateKey, el) {

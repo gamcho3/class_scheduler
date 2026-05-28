@@ -253,8 +253,12 @@ body {
   overflow: hidden;
 }
 
-.day:hover:not(.other-month) { background: #f7f9ff; }
-.day.other-month { background: #fafafa; cursor: default; }
+.day:hover:not(.other-month):not(.out-of-range) { background: #f7f9ff; }
+.day.other-month  { background: #fafafa; cursor: default; }
+.day.out-of-range { background: #fafafa; cursor: default; }
+.day.out-of-range .day-num { color: #ccc; }
+
+.nav-arrow:disabled { color: #ddd; cursor: default; }
 
 .day-num {
   width: 32px;
