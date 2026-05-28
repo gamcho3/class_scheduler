@@ -47,7 +47,25 @@ if ("serviceWorker" in navigator) {
         const permission = await Notification.requestPermission();
         if (permission === 'granted') {
         alert("권한 승인됨!");
-        await requestAndGetToken(registration);
+        if (permission === "granted") {
+      alert("알림 권한 허용됨. FCM 토큰 요청 중...");
+
+      // Firebase SDK의 실제 빌트인 함수인 'getToken'을 호출하여 토큰을 받아옵니다.
+      const currentToken = await getToken(messaging, {
+        serviceWorkerRegistration: registration,
+        vapidKey:
+          "BI3Z5nWpNOvg084Fi-o0SLzCeqPLc9xoKKPN4ZMwDzcWu9jVirEL9aPI6i4qD7a7vmSBz2gFef3v-Ysx_6nInpY",
+      });
+
+      if (currentToken) {
+        alert("FCM 토큰 발급 성공: " + currentToken);
+        sendTokenToGAS(currentToken); // GAS 백엔드로 전송
+      } else {
+        alert("토큰을 획득하지 못했습니다.");
+      }
+    } else {
+      alert("사용자가 알림 권한을 거부했습니다.");
+    }
         // 이후 FCM 토큰 발급 로직 진행
         }
       })
