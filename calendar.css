@@ -207,12 +207,16 @@ body {
 .calendar-container {
   background: #fff;
   border-bottom: 1px solid #ebebeb;
+  height: calc((100vh - 56px) * 2 / 3);
+  display: flex;
+  flex-direction: column;
 }
 
 .weekdays {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   border-bottom: 1px solid #ebebeb;
+  flex-shrink: 0;
 }
 
 .weekdays span {
@@ -230,11 +234,13 @@ body {
 .days {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
+  grid-template-rows: repeat(6, 1fr);
   border-left: 1px solid #ebebeb;
+  flex: 1;
+  overflow: hidden;
 }
 
 .day {
-  min-height: 76px;
   border-right: 1px solid #ebebeb;
   border-bottom: 1px solid #ebebeb;
   padding: 5px 4px 4px;
@@ -244,19 +250,20 @@ body {
   cursor: pointer;
   position: relative;
   transition: background 0.12s;
+  overflow: hidden;
 }
 
 .day:hover:not(.other-month) { background: #f7f9ff; }
 .day.other-month { background: #fafafa; cursor: default; }
 
 .day-num {
-  width: 26px;
-  height: 26px;
+  width: 32px;
+  height: 32px;
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  font-size: 0.8rem;
+  font-size: 16px;
   font-weight: 500;
   color: #333;
   flex-shrink: 0;
@@ -276,6 +283,7 @@ body {
 .day.selected:not(.today) .day-num {
   background: #eef0ff;
   outline: 2px solid #4a6cf7;
+  outline-offset: 1px;
 }
 
 /* ── 공휴일 ── */
