@@ -10,7 +10,7 @@
  *   action=notices  → [{id, title, date, content}, ...]
  *   POST {action:'vacation', name, date} → {success: true, message: '...'}
  */
-const GAS_URL = 'https://script.google.com/macros/s/AKfycbyOXYfJr3zp2kKOv2xTcQSN_154Bkj9XLM_ys6jZ5BVWYwoOIz6xIecclyrX3EeIWxb/exec';
+const GAS_URL = 'https://script.google.com/macros/s/AKfycbwtrEzlYbODIt5gStJViG-sHUS942QsM2yuMvBikk7RJ66IsOqQO-73D60Tckm7r6-P/exec';
 
 /**
  * GAS GET 요청

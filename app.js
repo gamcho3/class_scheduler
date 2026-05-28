@@ -84,7 +84,7 @@ if ("serviceWorker" in navigator) {
 
 function sendTokenToGAS(token) {
   const gasWebAppUrl =
-    "https://script.google.com/macros/s/AKfycbyOXYfJr3zp2kKOv2xTcQSN_154Bkj9XLM_ys6jZ5BVWYwoOIz6xIecclyrX3EeIWxb/exec";
+    "https://script.google.com/macros/s/AKfycbwtrEzlYbODIt5gStJViG-sHUS942QsM2yuMvBikk7RJ66IsOqQO-73D60Tckm7r6-P/exec";
 
   fetch(gasWebAppUrl, {
     method: "POST",
