@@ -39,20 +39,20 @@ if ("serviceWorker" in navigator) {
           scope: `${repoName}/`,
         },
       );
-      console.log("서비스 워커 등록 성공! 범위:", registration.scope);
+      alert("서비스 워커 등록 성공! 범위: " + registration.scope);
 
       // 서비스 워커 등록이 완료되면 알림 권한 및 토큰 요청 함수 호출
       await requestAndGetToken(registration);
       document.getElementById("pushBtn").addEventListener("click", async ()=>{
         const permission = await Notification.requestPermission();
         if (permission === 'granted') {
-        console.log("권한 승인됨!");
+        alert("권한 승인됨!");
         await requestAndGetToken(registration);
         // 이후 FCM 토큰 발급 로직 진행
         }
       })
     } catch (error) {
-      console.error("서비스 워커 등록 실패:", error);
+      alert("서비스 워커 등록 실패: " + error);
     }
   });
 }
@@ -63,7 +63,7 @@ async function requestAndGetToken(registration) {
     const permission = await Notification.requestPermission();
 
     if (permission === "granted") {
-      console.log("알림 권한 허용됨. FCM 토큰 요청 중...");
+      alert("알림 권한 허용됨. FCM 토큰 요청 중...");
 
       // Firebase SDK의 실제 빌트인 함수인 'getToken'을 호출하여 토큰을 받아옵니다.
       const currentToken = await getToken(messaging, {
@@ -73,16 +73,16 @@ async function requestAndGetToken(registration) {
       });
 
       if (currentToken) {
-        console.log("FCM 토큰 발급 성공:", currentToken);
+        alert("FCM 토큰 발급 성공: " + currentToken);
         sendTokenToGAS(currentToken); // GAS 백엔드로 전송
       } else {
-        console.log("토큰을 획득하지 못했습니다.");
+        alert("토큰을 획득하지 못했습니다.");
       }
     } else {
-      console.warn("사용자가 알림 권한을 거부했습니다.");
+      alert("사용자가 알림 권한을 거부했습니다.");
     }
   } catch (err) {
-    console.error("토큰 발급 중 오류 발생:", err);
+    alert("토큰 발급 중 오류 발생: " + err);
   }
 }
 
@@ -99,6 +99,6 @@ function sendTokenToGAS(token) {
       userAgent: navigator.userAgent,
     }),
   })
-    .then(() => console.log("GAS 백엔드로 토큰 전송 요청 완료"))
-    .catch((err) => console.error("GAS 토큰 전송 중 에러:", err));
+    .then(() => alert("GAS 백엔드로 토큰 전송 요청 완료"))
+    .catch((err) => alert("GAS 토큰 전송 중 에러: " + err));
 }
