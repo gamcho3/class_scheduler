@@ -43,7 +43,7 @@ if ("serviceWorker" in navigator) {
 
       // 서비스 워커 등록이 완료되면 알림 권한 및 토큰 요청 함수 호출
       await requestAndGetToken(registration);
-      document.getElementById("pushBtn").addEventListener("click",async ()=>{
+      document.getElementById("pushBtn").addEventListener("click", async ()=>{
         const permission = await Notification.requestPermission();
         if (permission === 'granted') {
         console.log("권한 승인됨!");
