@@ -47,6 +47,7 @@ if ("serviceWorker" in navigator) {
         const permission = await Notification.requestPermission();
         if (permission === 'granted') {
         console.log("권한 승인됨!");
+        await requestAndGetToken(registration);
         // 이후 FCM 토큰 발급 로직 진행
         }
       })
