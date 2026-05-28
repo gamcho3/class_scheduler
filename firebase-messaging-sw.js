@@ -1,9 +1,10 @@
 // 1. 백그라운드 환경(서비스 워커) 전용 Firebase 라이브러리 로드
+// 서비스 워커 내부에서 12.13.0 버전을 안전하게 쓸 때
 importScripts(
-  "https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js",
+  "https://www.gstatic.com/firebasejs/12.13.0/firebase-app-compat.js",
 );
 importScripts(
-  "https://www.gstatic.com/firebasejs/10.8.0/firebase-messaging-compat.js",
+  "https://www.gstatic.com/firebasejs/12.13.0/firebase-messaging-compat.js",
 );
 
 // 2. Firebase 초기화 (Firebase 콘솔 -> 프로젝트 설정에서 확인한 객체와 동일하게 입력)
