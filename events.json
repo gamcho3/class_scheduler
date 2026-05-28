@@ -1,0 +1,67 @@
+{
+  "events": [
+    {
+      "date": "2026-05-28",
+      "title": "수학 수업",
+      "description": "2학년 A반 - 이차방정식",
+      "time": "09:00",
+      "color": "#4a6cf7"
+    },
+    {
+      "date": "2026-05-28",
+      "title": "영어 수업",
+      "description": "3학년 B반 - 독해 및 문법",
+      "time": "14:00",
+      "color": "#2ecc71"
+    },
+    {
+      "date": "2026-05-30",
+      "title": "과학 실험",
+      "description": "1학년 C반 - 산과 염기 실험",
+      "time": "10:30",
+      "color": "#e74c3c"
+    },
+    {
+      "date": "2026-06-02",
+      "title": "중간고사 준비",
+      "description": "전 학년 시험 범위 안내 및 자습",
+      "time": "08:30",
+      "color": "#f39c12"
+    },
+    {
+      "date": "2026-06-05",
+      "title": "역사 수업",
+      "description": "2학년 B반 - 조선시대 사회 구조",
+      "time": "11:00",
+      "color": "#9b59b6"
+    },
+    {
+      "date": "2026-06-05",
+      "title": "체육 대회",
+      "description": "전교 운동회 - 운동장",
+      "time": "13:00",
+      "color": "#e74c3c"
+    },
+    {
+      "date": "2026-06-10",
+      "title": "학부모 상담",
+      "description": "3학년 담임 상담 주간 시작",
+      "time": "15:00",
+      "color": "#1abc9c"
+    },
+    {
+      "date": "2026-06-15",
+      "title": "수학 수업",
+      "description": "1학년 A반 - 함수의 개념",
+      "time": "09:00",
+      "color": "#4a6cf7"
+    },
+    {
+      "date": "2026-06-20",
+      "title": "기말고사",
+      "description": "1, 2교시 국어 / 3교시 수학",
+      "time": "08:00",
+      "color": "#e74c3c"
+    }
+  ]
+}

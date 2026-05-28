@@ -1,15 +1,10 @@
-// Import the functions you need from the SDKs you need
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
 import {
   getMessaging,
   getToken,
 } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-messaging.js";
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-analytics.js";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
 
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
   apiKey: "AIzaSyDtnCyRQIqptHdhMUHFXR6-JPgEFKiVcD0",
   authDomain: "class-schedule-program.firebaseapp.com",
@@ -20,93 +15,81 @@ const firebaseConfig = {
   measurementId: "G-TC7DDWBGZ7",
 };
 
-// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 const messaging = getMessaging(app);
 
-// GitHub Pages의 레포지토리명 정의 (지정하지 않으면 404 라우팅 에러 가능성 높음)
 const repoName = "/class_scheduler";
+const VAPID_KEY =
+  "BI3Z5nWpNOvg084Fi-o0SLzCeqPLc9xoKKPN4ZMwDzcWu9jVirEL9aPI6i4qD7a7vmSBz2gFef3v-Ysx_6nInpY";
 
-// 3. 페이지 로드 시 서비스 워커 등록 및 토큰 요청 시작
-if ("serviceWorker" in navigator) {
-  window.addEventListener("load", async () => {
-    try {
-      // GitHub Pages의 서브 디렉토리 구조에 맞춰 서비스 워커 파일 위치 지정
-      const registration = await navigator.serviceWorker.register(
-        `${repoName}/firebase-messaging-sw.js`,
-        {
-          scope: `${repoName}/`,
-        },
-      );
-      alert("서비스 워커 등록 성공! 범위: " + registration.scope);
+// iPadOS 13+는 userAgent가 MacIntel로 나오므로 maxTouchPoints로 구분
+const isIOS =
+  /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+  (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+const isAndroid = /Android/.test(navigator.userAgent);
 
-      // 서비스 워커 등록이 완료되면 알림 권한 및 토큰 요청 함수 호출
-      await requestAndGetToken(registration);
-      document.getElementById("pushBtn").addEventListener("click", async ()=>{
-        const permission = await Notification.requestPermission();
-        if (permission === 'granted') {
-        alert("권한 승인됨!");
-        if (permission === "granted") {
-      alert("알림 권한 허용됨. FCM 토큰 요청 중...");
-
-      // Firebase SDK의 실제 빌트인 함수인 'getToken'을 호출하여 토큰을 받아옵니다.
-      const currentToken = await getToken(messaging, {
-        serviceWorkerRegistration: registration,
-        vapidKey:
-          "BI3Z5nWpNOvg084Fi-o0SLzCeqPLc9xoKKPN4ZMwDzcWu9jVirEL9aPI6i4qD7a7vmSBz2gFef3v-Ysx_6nInpY",
-      });
-
-      if (currentToken) {
-        alert("FCM 토큰 발급 성공: " + currentToken);
-        sendTokenToGAS(currentToken); // GAS 백엔드로 전송
-      } else {
-        alert("토큰을 획득하지 못했습니다.");
-      }
-    } else {
-      alert("사용자가 알림 권한을 거부했습니다.");
-    }
-        // 이후 FCM 토큰 발급 로직 진행
-        }
-      })
-    } catch (error) {
-      alert("서비스 워커 등록 실패: " + error);
-    }
-  });
-}
-
-async function requestAndGetToken(registration) {
+async function requestTokenWithRegistration(registration) {
+  const permission = await Notification.requestPermission();
+  if (permission !== "granted") {
+    alert("알림 권한이 거부되었습니다.");
+    return;
+  }
   try {
-    // 브라우저에 알림 권한 팝업 요청
-    const permission = await Notification.requestPermission();
-
-    if (permission === "granted") {
-      alert("알림 권한 허용됨. FCM 토큰 요청 중...");
-
-      // Firebase SDK의 실제 빌트인 함수인 'getToken'을 호출하여 토큰을 받아옵니다.
-      const currentToken = await getToken(messaging, {
-        serviceWorkerRegistration: registration,
-        vapidKey:
-          "BI3Z5nWpNOvg084Fi-o0SLzCeqPLc9xoKKPN4ZMwDzcWu9jVirEL9aPI6i4qD7a7vmSBz2gFef3v-Ysx_6nInpY",
-      });
-
-      if (currentToken) {
-        alert("FCM 토큰 발급 성공: " + currentToken);
-        sendTokenToGAS(currentToken); // GAS 백엔드로 전송
-      } else {
-        alert("토큰을 획득하지 못했습니다.");
-      }
+    const currentToken = await getToken(messaging, {
+      serviceWorkerRegistration: registration,
+      vapidKey: VAPID_KEY,
+    });
+    if (currentToken) {
+      alert("FCM 토큰 발급 성공: " + currentToken);
+      sendTokenToGAS(currentToken);
     } else {
-      alert("사용자가 알림 권한을 거부했습니다.");
+      alert("토큰을 획득하지 못했습니다.");
     }
   } catch (err) {
     alert("토큰 발급 중 오류 발생: " + err);
   }
 }
 
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", async () => {
+    let registration;
+    try {
+      registration = await navigator.serviceWorker.register(
+        `${repoName}/firebase-messaging-sw.js`,
+        { scope: `${repoName}/` }
+      );
+    } catch (error) {
+      alert("서비스 워커 등록 실패: " + error);
+      return;
+    }
+
+    if (isAndroid) {
+      // 안드로이드: 페이지 로드 후 자동으로 권한 요청
+      await requestTokenWithRegistration(registration);
+
+    } else if (isIOS) {
+      // iOS: 하단 버튼 표시 후 탭 시 권한 요청
+      const pushBar = document.getElementById("iosPushBar");
+      pushBar.removeAttribute("hidden");
+      document.body.style.paddingBottom = "80px";
+
+      document.getElementById("pushBtn").addEventListener("click", async () => {
+        await requestTokenWithRegistration(registration);
+        // 토큰 발급 성공 여부와 무관하게 권한 결정 후 바 숨김
+        if (Notification.permission !== "default") {
+          pushBar.setAttribute("hidden", "");
+          document.body.style.paddingBottom = "";
+        }
+      });
+    }
+    // 그 외 환경(데스크톱 등)은 아무것도 하지 않음
+  });
+}
+
 function sendTokenToGAS(token) {
   const gasWebAppUrl =
-    "https://script.google.com/macros/s/AKfycbyby8YtrF2tWC5u-o3eZEM1i4m8F_vm1-nb7dV1baL5rnY8Utv01d1yor1pwhqEtc6a/exec";
+    "https://script.google.com/macros/s/AKfycbyOXYfJr3zp2kKOv2xTcQSN_154Bkj9XLM_ys6jZ5BVWYwoOIz6xIecclyrX3EeIWxb/exec";
 
   fetch(gasWebAppUrl, {
     method: "POST",

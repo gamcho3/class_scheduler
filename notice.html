@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>공지사항</title>
+    <link rel="stylesheet" href="calendar.css">
+  </head>
+  <body>
+
+    <nav class="top-nav">
+      <span class="nav-page-title">공지사항</span>
+      <button class="hamburger-btn" id="hamburgerBtn">
+        <span></span><span></span><span></span>
+      </button>
+    </nav>
+
+    <div class="side-overlay" id="sideOverlay"></div>
+    <aside class="side-menu" id="sideMenu">
+      <div class="side-menu-header">
+        <span class="side-menu-title">수업 스케줄러</span>
+        <button class="side-close-btn" id="sideCloseBtn">&#10005;</button>
+      </div>
+      <ul class="side-menu-list">
+        <li class="side-menu-item"        data-href="index.html">달력</li>
+        <li class="side-menu-item active" data-href="notice.html">공지사항</li>
+        <li class="side-menu-item"        data-href="vacation.html">휴가신청</li>
+      </ul>
+    </aside>
+
+    <main class="main-content">
+      <div id="noticeList"></div>
+      <div id="noticeDetail" class="notice-detail" hidden>
+        <button class="back-btn" id="noticeBackBtn">&#8592; 목록으로</button>
+        <div class="notice-detail-content">
+          <h2 id="noticeDetailTitle"></h2>
+          <span class="notice-detail-date" id="noticeDetailDate"></span>
+          <div class="notice-detail-body" id="noticeDetailBody"></div>
+        </div>
+      </div>
+    </main>
+
+    <script src="./api.js"></script>
+    <script src="./nav.js"></script>
+    <script src="./notice.js"></script>
+  </body>
+</html>
